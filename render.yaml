@@ -13,3 +13,4 @@ services:
         sync: false
       - key: ALLOWED_TEAM_ID
         sync: false
+

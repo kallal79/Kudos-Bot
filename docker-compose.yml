@@ -10,3 +10,4 @@ services:
       - ALLOWED_TEAM_ID=${ALLOWED_TEAM_ID:-}
       - RATE_LIMIT_MS=${RATE_LIMIT_MS:-1500}
     restart: unless-stopped
+
