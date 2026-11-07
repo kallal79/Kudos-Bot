@@ -1,10 +1,9 @@
-// Kudos Bot — OPTIONAL self-hosted endpoint (zero dependencies, Node 18+).
-// Use this instead of Pipedream if you want to host on Render / Railway / Fly / a VPS.
-// It reuses the exact same logic as pipedream-step.mjs and ADDS full Slack
-// request-signature verification (HMAC-SHA256 with your Signing Secret).
+// Kudos Bot — standalone HTTP server (zero npm dependencies, Node 18+)
+// Use this if you want to host on Render, Railway, Fly.io, or Docker instead of Pipedream.
+// Verifies incoming Slack request signatures with HMAC-SHA256 and 5-minute replay defense.
 //
-//   SLACK_SIGNING_SECRET=xxxx PORT=3000 node kudos-bot/server.mjs
-//   Request URL in Slack:  https://your-host/slack/commands
+//   SLACK_SIGNING_SECRET=xxxx PORT=3000 npm start
+//   Request URL in Slack: https://your-domain.com/slack/commands
 //
 // Signing Secret: api.slack.com/apps → your app → Basic Information → App Credentials.
 

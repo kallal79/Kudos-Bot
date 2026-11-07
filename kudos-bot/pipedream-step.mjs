@@ -1,8 +1,8 @@
-// Kudos Bot v2.2 — Pipedream "Run custom code" (Node.js) step  ✅ RECOMMENDED
+// Kudos Bot — Pipedream custom code step (Track A: Recommended)
 //
 // Slack scope needed: `commands` ONLY (no chat:write, no bot token in code).
-// We answer Slack's slash-command request directly with response_type "in_channel",
-// so the compliment is posted publicly in the channel where /compliment was typed.
+// When someone runs /compliment, Slack pings this endpoint. We reply immediately
+// with response_type "in_channel", and Slack posts the message for us.
 //
 // Usage in Slack:
 //   /compliment                         → random compliment for the channel
@@ -110,7 +110,7 @@ function ephemeral(text) {
   return { response_type: "ephemeral", text };
 }
 
-// Enterprise security: neutralize broadcast notifications or link injection
+// Neutralize broadcast tags like @channel or @everyone to prevent accidental mass pings
 function sanitizeCustomText(text) {
   return text
     .replace(/<!(here|channel|everyone|subteam\^[A-Z0-9]+)>/gi, "[$1]")
