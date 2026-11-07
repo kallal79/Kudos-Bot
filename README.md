@@ -16,7 +16,7 @@ Type `/compliment` in any channel → Kudos Bot posts a random, work-friendly co
 | 3 | **Slash command wired to a live Request URL** that posts a real reply to the channel | `/compliment` → Pipedream HTTP trigger → public (`in_channel`) reply | `harness.mjs`, `audit.mjs`, `e2e.mjs` |
 | 4 | **Real install & test in the Slack developer sandbox** | Steps I–V below (needs your own Slack + Pipedream login) | Your screenshot |
 
-**Local test results:** `npm test` → 10/10 unit + 32/32 audit ✔ · `npm run test:e2e` → 4/4 real-HTTP ✔
+**Local test results:** `npm test` → 10/10 unit + 32/32 audit ✔ · `npm run test:e2e` → 4/4 real-HTTP ✔ · `npm run demo` → 6/6 replies + forged request blocked ✔ · app logic 100% line coverage
 
 ---
 
@@ -135,6 +135,7 @@ Optional hardening for Pipedream: add env var `ALLOWED_TEAM_ID` = your workspace
 | `kudos-bot/pipedream-step.mjs` | Track A Pipedream code (no token) |
 | `kudos-bot/pipedream-step-chatwrite.mjs` | Track B Pipedream code (token from env var) |
 | `kudos-bot/server.mjs` | Optional zero-dependency self-hosted endpoint with signature verification |
+| `kudos-bot/demo.mjs` | Local Slack simulator + `preview.html` generator |
 | `kudos-bot/test/harness.mjs` | Unit tests |
 | `kudos-bot/test/audit.mjs` | Criteria + Slack-limits audit (incl. Slack's official signature test vector) |
 | `kudos-bot/test/e2e.mjs` | Real HTTP test on localhost |
@@ -142,6 +143,23 @@ Optional hardening for Pipedream: add env var `ALLOWED_TEAM_ID` = your workspace
 
 ## Run the checks
 ```powershell
-npm test            # unit + audit
-npm run test:e2e    # real HTTP round-trip on 127.0.0.1
+npm run demo        # local Slack simulator → prints the channel + writes kudos-bot/preview.html
+npm test            # unit (10) + audit (32)
+npm run test:e2e    # real HTTP round-trip on 127.0.0.1 (4)
+npm run coverage    # Node built-in coverage: app logic 100% lines
+npm run check       # test + demo + coverage in one go
 ```
+
+### See it before you deploy
+`npm run demo` sends real **Slack-signed** requests through the same code Pipedream runs, and prints the replies like a channel:
+```
+you  /compliment @sam @lee teamwork
+Kudos Bot APP · visible to everyone · 200 in 1.3 ms
+  • @sam — You give credit generously — and deserve plenty back.
+  • @lee — You bring calm to every fire drill.
+  Sent by @you with /compliment · theme: teamwork
+
+attacker  forged signature → 401 invalid signature
+✔ 6/6 replies delivered, forged request blocked
+```
+Open `kudos-bot/preview.html` in your browser for a Slack-style rendering (with the real icon). It's handy as a cover image, but your submission screenshot should come from the real sandbox.

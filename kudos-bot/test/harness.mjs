@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 
 globalThis.defineComponent = (c) => c;
 const src = await readFile(new URL("../pipedream-step.mjs", import.meta.url), "utf8");
-const step = (await import("data:text/javascript," + encodeURIComponent(src))).default;
+const step = (await import("../pipedream-step.mjs")).default;
 
 let passed = 0;
 const ok = (msg) => { passed++; console.log("✔ " + msg); };

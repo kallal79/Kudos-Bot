@@ -10,12 +10,11 @@
 
 import http from "node:http";
 import crypto from "node:crypto";
-import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
+// Pipedream provides defineComponent globally; shim it locally, then load the step file.
 globalThis.defineComponent ??= (c) => c;
-const src = await readFile(new URL("./pipedream-step.mjs", import.meta.url), "utf8");
-const step = (await import("data:text/javascript," + encodeURIComponent(src))).default;
+const step = (await import("./pipedream-step.mjs")).default;
 
 export function verifySlackSignature(secret, headers, rawBody, nowSec = Math.floor(Date.now() / 1000)) {
   const ts = headers["x-slack-request-timestamp"];

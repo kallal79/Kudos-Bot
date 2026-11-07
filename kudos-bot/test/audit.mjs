@@ -86,7 +86,7 @@ await check("C3 socket mode off (HTTP Request URL used)", () => {
 // Load step
 globalThis.defineComponent = (c) => c;
 const stepSrc = await readFile(new URL("pipedream-step.mjs", dir), "utf8");
-const step = (await import("data:text/javascript," + encodeURIComponent(stepSrc))).default;
+const step = (await import("../pipedream-step.mjs")).default;
 async function call(body) {
   let r; const $ = { respond: async (x) => { r = x; } };
   await step.run({ steps: { trigger: { event: { body } } }, $ });
@@ -144,15 +144,14 @@ await check("SEC unsigned / unknown routes rejected", async () => {
 
 // ---------- Alternative chat:write step (mocked Slack Web API) ----------
 await check("ALT chat:write step: token from env, posts to channel, hints on not_in_channel", async () => {
-  const altSrc = await readFile(new URL("pipedream-step-chatwrite.mjs", dir), "utf8");
-  const alt = (await import("data:text/javascript," + encodeURIComponent(altSrc))).default;
+  const alt = (await import("../pipedream-step-chatwrite.mjs")).default;
   process.env.SLACK_BOT_TOKEN = "test-token";
   const calls = [];
   const realFetch = globalThis.fetch;
   let mode = "ok";
   globalThis.fetch = async (url, opts) => {
     calls.push({ url, opts });
-    const data = url.includes("chat.postMessage") ? (mode === "ok" ? { ok: true } : { ok: false, error: "not_in_channel" }) : {};
+    const data = url.includes("chat.postMessage") ? (mode === "ok" ? { ok: true } : { ok: false, error: mode === "fail" ? "not_in_channel" : "invalid_auth" }) : {};
     return { json: async () => data };
   };
   try {
@@ -166,6 +165,13 @@ await check("ALT chat:write step: token from env, posts to channel, hints on not
     await alt.run(ev);
     assert.equal(calls[1].url, "https://hooks.slack.com/x");
     assert.match(JSON.parse(calls[1].opts.body).text, /invite/);
+    calls.length = 0; mode = "other";
+    await alt.run(ev);
+    assert.equal(calls.length, 2);
+    calls.length = 0;
+    await alt.run({ steps: { trigger: { event: { body: { ssl_check: "1" } } } }, $ });
+    assert.equal(calls.length, 0, "ssl_check must not call Slack");
+    await alt.run({ steps: { trigger: { event: {} } }, $ }); // missing body: no crash
   } finally {
     globalThis.fetch = realFetch;
     delete process.env.SLACK_BOT_TOKEN;
