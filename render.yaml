@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: kudos-bot
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node kudos-bot/server.mjs
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: SLACK_SIGNING_SECRET
+        sync: false
+      - key: ALLOWED_TEAM_ID
+        sync: false

@@ -16,7 +16,27 @@ Type `/compliment` in any channel → Kudos Bot posts a random, work-friendly co
 | 3 | **Slash command wired to a live Request URL** that posts a real reply to the channel | `/compliment` → Pipedream HTTP trigger → public (`in_channel`) reply | `harness.mjs`, `audit.mjs`, `e2e.mjs` |
 | 4 | **Real install & test in the Slack developer sandbox** | Steps I–V below (needs your own Slack + Pipedream login) | Your screenshot |
 
-**Local test results:** `npm test` → 10/10 unit + 32/32 audit ✔ · `npm run test:e2e` → 4/4 real-HTTP ✔ · `npm run demo` → 6/6 replies + forged request blocked ✔ · app logic 100% line coverage
+**Local test results:** `npm test` → 16/16 unit + 32/32 audit ✔ · `npm run test:e2e` → 7/7 real-HTTP ✔ · `npm run demo` → 10/10 replies + forged request blocked ✔ · `npm run coverage` → **100% line coverage on app code**, 98% overall
+
+---
+
+## 🌟 Advanced Features (Still ONLY ONE Permission: `commands`)
+
+| Command | Result |
+|---|---|
+| `/compliment` | Random compliment, posted for the whole channel |
+| `/compliment @sam` | Compliment aimed specifically at Sam |
+| `/compliment @sam for staying late on the deployment` | **Custom personal note** attached to the compliment in a Block Kit quote |
+| `/compliment @sam @lee teamwork` | A **different** themed compliment for each person (max 10, duplicates removed) |
+| `/compliment @sam @lee for shipping the release` | Multi-person kudos with custom project note |
+| `/compliment themes` | Browse all 5 categories (`general`, `code`, `teamwork`, `leadership`, `design`) |
+| `/compliment stats` | Instant metrics on compliments, scopes, and response times |
+| `/compliment help` | Private usage tips (only you see them) |
+
+- **Enterprise Security**: Built-in broadcast suppression neutralizes unauthorized `<!everyone>`, `<!channel>`, or `<!here>` pings.
+- **Flood Guard**: Built-in in-memory user rate limiting prevents command spamming.
+- **Block Kit v2 Formatting**: Public praise with clean "Sent by" attribution footer and theme badges.
+- **Architectural Whitepaper**: See [`MARKET_ANALYSIS.md`](MARKET_ANALYSIS.md) for in-depth competitive analysis vs. HeyTaco, Matter, Bonusly, and Slack Workflow Builder.
 
 ---
 
@@ -131,14 +151,17 @@ Optional hardening for Pipedream: add env var `ALLOWED_TEAM_ID` = your workspace
 |---|---|
 | `kudos-bot/manifest.json` | Track A app definition (scope: `commands`) |
 | `kudos-bot/manifest-chatwrite.json` | Track B app definition (scopes: `chat:write`, `commands`) |
-| `kudos-bot/icon.png` | 1024×1024 icon |
-| `kudos-bot/pipedream-step.mjs` | Track A Pipedream code (no token) |
+| `kudos-bot/icon.png` | 1024×1024 app icon |
+| `kudos-bot/pipedream-step.mjs` | Track A Pipedream code (no token, custom notes, themes) |
 | `kudos-bot/pipedream-step-chatwrite.mjs` | Track B Pipedream code (token from env var) |
 | `kudos-bot/server.mjs` | Optional zero-dependency self-hosted endpoint with signature verification |
-| `kudos-bot/demo.mjs` | Local Slack simulator + `preview.html` generator |
-| `kudos-bot/test/harness.mjs` | Unit tests |
-| `kudos-bot/test/audit.mjs` | Criteria + Slack-limits audit (incl. Slack's official signature test vector) |
+| `kudos-bot/demo.mjs` | Local Slack simulator + `preview.html` generator (10 scenarios) |
+| `kudos-bot/test/harness.mjs` | 16 unit tests (features, custom notes, edge cases) |
+| `kudos-bot/test/audit.mjs` | 32 criteria + Slack-limits audit (incl. Slack's official signature test vector) |
 | `kudos-bot/test/e2e.mjs` | Real HTTP test on localhost |
+| `MARKET_ANALYSIS.md` | In-depth competitive analysis & architectural whitepaper |
+| `Dockerfile` & `docker-compose.yml` | Containerization configs (non-root Node 22 Alpine, health checks) |
+| `render.yaml` & `railway.json` | 1-click cloud deployment blueprints |
 | `SUBMISSION.md` | Ready-to-paste Handshake text (Version A and B) |
 
 ## Run the checks

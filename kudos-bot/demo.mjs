@@ -16,9 +16,13 @@ const C = { dim: "\x1b[2m", bold: "\x1b[1m", green: "\x1b[32m", red: "\x1b[31m",
 const scenarios = [
   { label: "Plain compliment", text: "" },
   { label: "Aimed at a teammate", text: "<@U0SAM|sam>" },
+  { label: "Custom personal note", text: "<@U0SAM|sam> for staying late on the deployment" },
   { label: "Two teammates, themed", text: "<@U0SAM|sam> <@U0LEE|lee> teamwork" },
+  { label: "Multi-person with personal note", text: "<@U0SAM|sam> <@U0LEE|lee> thanks for shipping the release" },
   { label: "Theme only", text: "code" },
   { label: "Leadership for Ana", text: "<@U0ANA|ana> leadership" },
+  { label: "Themes list (private)", text: "themes" },
+  { label: "Stats (private)", text: "stats" },
   { label: "Help (private)", text: "help" },
 ];
 
@@ -118,3 +122,4 @@ const out = new URL("./preview.html", import.meta.url);
 await writeFile(out, html);
 console.log(`${C.dim}Slack-style preview written to ${decodeURIComponent(out.pathname).replace(/^\/([A-Za-z]:)/, "$1")}${C.reset}\n`);
 process.exit(pass === scenarios.length && secOk ? 0 : 1);
+

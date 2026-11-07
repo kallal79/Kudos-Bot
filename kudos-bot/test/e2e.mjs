@@ -33,6 +33,21 @@ try {
   assert.equal(j.response_type, "in_channel");
   console.log("✔ POST /slack/commands (signed) →", j.text);
 
+  r = await slash("<@U0SAM|sam> for launching the product");
+  assert.equal(r.status, 200);
+  const jCustom = await r.json();
+  assert.equal(jCustom.response_type, "in_channel");
+  assert.match(jCustom.text, /> _"launching the product"_/);
+  console.log("✔ POST /slack/commands with custom note →", jCustom.text.split("\n")[1]);
+
+  r = await slash("themes");
+  assert.equal((await r.json()).response_type, "ephemeral");
+  console.log("✔ themes → ephemeral");
+
+  r = await slash("stats");
+  assert.equal((await r.json()).response_type, "ephemeral");
+  console.log("✔ stats → ephemeral");
+
   r = await slash("help");
   assert.equal((await r.json()).response_type, "ephemeral");
   console.log("✔ help → ephemeral");

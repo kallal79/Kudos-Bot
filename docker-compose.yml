@@ -1,0 +1,12 @@
+services:
+  kudos-bot:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET:-change_me_to_your_slack_signing_secret}
+      - ALLOWED_TEAM_ID=${ALLOWED_TEAM_ID:-}
+      - RATE_LIMIT_MS=${RATE_LIMIT_MS:-1500}
+    restart: unless-stopped
