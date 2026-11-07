@@ -7,7 +7,7 @@ Kudos Bot – A Least-Privilege Slack Compliment App
 https://github.com/kallal79/Kudos-Bot
 
 **Upload:** screenshot of the `/compliment` reply in your sandbox channel.
-**Cover:** `kudos-bot/icon.png` (or a 3:2 screenshot ≥1200 px wide).
+**Cover:** `kudos-bot/cover.png` (Custom 1800×1200, 3:2 ratio showcase image).
 **Share to Showcase:** ✅
 
 > Use the description that matches the track you deployed.
