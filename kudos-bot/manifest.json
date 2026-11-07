@@ -1,0 +1,40 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Kudos Bot",
+    "description": "Type /compliment and Kudos Bot posts a random compliment for the whole channel.",
+    "long_description": "Kudos Bot is a tiny morale booster for your team. Anyone in a channel can type /compliment and the app instantly posts a random, work-friendly compliment that everyone in the channel can see. Mention teammates, like /compliment @sam @lee, to give each person their own kudos, add a theme (code, teamwork, leadership, design), or type /compliment help for tips. It holds a single permission (commands), stores no tokens, and never reads messages.",
+    "background_color": "#d9534f"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "Kudos Bot",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/compliment",
+        "url": "https://REPLACE-WITH-YOUR-PIPEDREAM-URL.m.pipedream.net",
+        "description": "Post a random compliment to the channel",
+        "usage_hint": "[@teammate ...] [code|teamwork|leadership|design] or help",
+        "should_escape": true
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "commands"
+      ]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}
+

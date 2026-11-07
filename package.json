@@ -1,0 +1,14 @@
+{
+  "name": "kudos-bot",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Least-privilege Slack /compliment app (scope: commands only)",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node kudos-bot/server.mjs",
+    "test": "node kudos-bot/test/harness.mjs && node kudos-bot/test/audit.mjs",
+    "test:e2e": "node kudos-bot/test/e2e.mjs"
+  }
+}
+

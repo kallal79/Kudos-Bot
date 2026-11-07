@@ -1,0 +1,40 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Kudos Bot",
+    "description": "Type /compliment and Kudos Bot posts a random compliment for the whole channel.",
+    "long_description": "Kudos Bot is a tiny morale booster for your team. Anyone in a channel can type /compliment and the app instantly posts a random, work-friendly compliment that everyone in the channel can see. This variant follows the course guide: it posts with chat.postMessage using the chat:write bot scope (commands is added automatically by Slack for the slash command). It never reads messages.",
+    "background_color": "#d9534f"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "Kudos Bot",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/compliment",
+        "url": "https://REPLACE-WITH-YOUR-PIPEDREAM-URL.m.pipedream.net",
+        "description": "Post a random compliment to the channel",
+        "usage_hint": "e.g. /compliment",
+        "should_escape": true
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "chat:write",
+        "commands"
+      ]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}
